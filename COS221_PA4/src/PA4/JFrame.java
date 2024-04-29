@@ -4,8 +4,10 @@
  */
 package PA4;
     import java.sql.*;
-import java.util.Vector;
-import javax.swing.table.DefaultTableModel;
+    import java.util.Vector;
+    import javax.swing.table.DefaultTableModel;
+import javax.swing.*;
+import java.awt.*;
 
 /**
  *
@@ -20,6 +22,7 @@ public class JFrame extends javax.swing.JFrame {
      * Creates new form JFrame
      */
     public JFrame(Connection conn) {
+        this.pack();
         this.conn = conn;
         initComponents();
         staffTable();
@@ -57,6 +60,14 @@ public class JFrame extends javax.swing.JFrame {
         }
     }
     
+    private void position(){
+         SwingUtilities.invokeLater(() -> {
+        this.pack(); // Automatically size the frame
+            
+        Point location = this.getLocationOnScreen();
+         });
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -89,6 +100,7 @@ public class JFrame extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("DVD Store (PA4)");
+        setLocation(new java.awt.Point(500, 240));
 
         StaffPanel.setToolTipText("");
         StaffPanel.setName("StaffPanel"); // NOI18N

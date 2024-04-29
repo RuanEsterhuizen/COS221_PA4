@@ -42,6 +42,7 @@ public class Login extends javax.swing.JFrame {
         PortTextBox = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setLocation(new java.awt.Point(500, 240));
 
         jLabel1.setText("Username");
 
