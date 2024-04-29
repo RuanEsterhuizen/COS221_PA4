@@ -4,6 +4,8 @@
  */
 package PA4;
     import java.sql.*;
+import java.util.Vector;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -19,6 +21,19 @@ public class JFrame extends javax.swing.JFrame {
      */
     public JFrame() {
         initComponents();
+        
+        try {
+            // TODO add your handling code here:
+            
+            //String sql = "SELECT first_name, last_name, address, district, city, postal_code, phone, store, active FROM staff, address, city";
+            stmt = conn.createStatement();
+            String sql = "SELECT * FROM staff";
+            rs = stmt.executeQuery(sql);
+            StaffTable.setModel(buildTableModel(rs));
+            
+        } catch (SQLException ex) {
+            ex.getStackTrace();
+        }
     }
     public void setConnection(Connection conn){
         this.conn = conn;
@@ -305,22 +320,38 @@ public class JFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void StaffPanelMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_StaffPanelMouseEntered
-        try {
-            // TODO add your handling code here:
-            
-            //String sql = "SELECT first_name, last_name, address, district, city, postal_code, phone, store, active FROM staff, address, city";
-            stmt = conn.createStatement();
-            String sql = "SELECT * FROM staff";
-            rs = stmt.executeQuery(sql);
-            StaffTable.setModel(DbUtils.resultSetToTableModel(rs));
-            
-        } catch (SQLException ex) {
-            ex.getStackTrace();
-        }
+
         
         
     }//GEN-LAST:event_StaffPanelMouseEntered
 
+    
+    public static DefaultTableModel buildTableModel(ResultSet rs)
+        throws SQLException {
+
+    ResultSetMetaData metaData = rs.getMetaData();
+
+    // names of columns
+    Vector<String> columnNames = new Vector<String>();
+    int columnCount = metaData.getColumnCount();
+    for (int column = 1; column <= columnCount; column++) {
+        columnNames.add(metaData.getColumnName(column));
+    }
+
+    // data of the table
+    Vector<Vector<Object>> data = new Vector<Vector<Object>>();
+    while (rs.next()) {
+        Vector<Object> vector = new Vector<Object>();
+        for (int columnIndex = 1; columnIndex <= columnCount; columnIndex++) {
+            vector.add(rs.getObject(columnIndex));
+        }
+        data.add(vector);
+    }
+
+    return new DefaultTableModel(data, columnNames);
+
+}
+    
     /**
      * @param args the command line arguments
      */
