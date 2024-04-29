@@ -3,7 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package PA4;
-    import java.sql*;
+    import java.sql.*;
 /**
  *
  * @author ruben
@@ -15,6 +15,11 @@ public class Login extends javax.swing.JFrame {
      */
     public Login() {
         initComponents();
+        clearErrors();
+    }
+    
+    private void clearErrors(){
+        Errorlbl.setText("");
     }
 
     /**
@@ -32,6 +37,7 @@ public class Login extends javax.swing.JFrame {
         LoginUserTextBox = new javax.swing.JTextField();
         LoginPassTextBox = new javax.swing.JPasswordField();
         Heading = new javax.swing.JLabel();
+        Errorlbl = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -48,6 +54,10 @@ public class Login extends javax.swing.JFrame {
 
         Heading.setFont(new java.awt.Font("Arial Black", 0, 36)); // NOI18N
         Heading.setText("Login");
+
+        Errorlbl.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        Errorlbl.setForeground(new java.awt.Color(255, 51, 51));
+        Errorlbl.setText("Error");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -68,7 +78,10 @@ public class Login extends javax.swing.JFrame {
                                 .addComponent(LoginPassTextBox, javax.swing.GroupLayout.DEFAULT_SIZE, 180, Short.MAX_VALUE))))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(230, 230, 230)
-                        .addComponent(Heading, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(Heading, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(272, 272, 272)
+                        .addComponent(Errorlbl)))
                 .addContainerGap(174, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -86,7 +99,9 @@ public class Login extends javax.swing.JFrame {
                     .addComponent(LoginPassTextBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(54, 54, 54)
                 .addComponent(LoginButton)
-                .addContainerGap(99, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(Errorlbl)
+                .addContainerGap(61, Short.MAX_VALUE))
         );
 
         pack();
@@ -99,7 +114,26 @@ public class Login extends javax.swing.JFrame {
         String password = new String(pass);
         
         Connector connect = new Connector(username, password);
-        Connection conn = Connector.getConn();
+        Connection conn = connect.getConnection();
+        if(conn != null){
+            JFrame x = new JFrame();
+            
+            x.setConnection(conn);
+            
+            this.setVisible(false);
+            x.setVisible(true);
+            /* 
+                HomeScreen.welcomeUser = (txfUsername.getText());
+                 MainGUI.recieveUsername = (txfUsername.getText());
+                 ViewOrderGUI.orderName = (txfUsername.getText());
+                 
+                 this.setVisible(false);
+                 new HomeScreen().setVisible(true); 
+             */
+        }
+        else{
+            Errorlbl.setText("Failed to connect");
+        }
     }//GEN-LAST:event_LoginButtonActionPerformed
 
     /**
@@ -138,6 +172,7 @@ public class Login extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel Errorlbl;
     private javax.swing.JLabel Heading;
     private javax.swing.JButton LoginButton;
     private javax.swing.JPasswordField LoginPassTextBox;

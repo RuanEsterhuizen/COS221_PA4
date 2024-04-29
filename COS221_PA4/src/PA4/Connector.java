@@ -20,17 +20,11 @@ public class Connector {
     public Connector(String username, String pass){
         //Class.forName("org.mariadb.jdbc.Driver");
         url = "jdbc:mariadb://localhost:3306/sakila";
-        this.username = "root";
-        this.pass = "Rgwbi@04$";
+        this.username = username;
+        this.pass = pass;
         
         try {
-            this.conn = DriverManager.getConnection(url, username, pass);
-            if(conn != null){
-                System.out.println("Connected");
-            }
-            else{
-                System.out.println("Failed to connect to Database");
-            }
+            this.conn = DriverManager.getConnection(url, this.username, this.pass);
         } catch (SQLException ex) {
             ex.printStackTrace();
         }

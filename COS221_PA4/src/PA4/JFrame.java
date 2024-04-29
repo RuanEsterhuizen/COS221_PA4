@@ -3,20 +3,23 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package PA4;
-
+    import java.sql.*;
 /**
  *
  * @author ruane
  */
 public class JFrame extends javax.swing.JFrame {
-
+    private Connection conn;
+    
     /**
      * Creates new form JFrame
      */
     public JFrame() {
         initComponents();
     }
-
+    public void setConnection(Connection conn){
+        this.conn = conn;
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
