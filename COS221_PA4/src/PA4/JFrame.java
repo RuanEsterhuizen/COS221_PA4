@@ -33,9 +33,19 @@ public class JFrame extends javax.swing.JFrame {
             
             //String sql = "SELECT first_name, last_name, address, district, city, postal_code, phone, store, active FROM staff, address, city";
             stmt = conn.createStatement();
-            String sql = "SELECT * FROM staff";
+            String sql = "SELECT first_name,last_name, address.address, address.district, city.city, address.phone, store_id, active FROM staff "+
+                    "INNER JOIN address ON staff.address_id=address.address_id INNER JOIN city ON address.city_id=city.city_id";
             rs = stmt.executeQuery(sql);
             StaffTable.setModel(buildTableModel(rs));
+            
+            StaffTable.getColumnModel().getColumn(0).setHeaderValue("FirstName");
+            StaffTable.getColumnModel().getColumn(1).setHeaderValue("LastName");
+            StaffTable.getColumnModel().getColumn(2).setHeaderValue("Address");
+            StaffTable.getColumnModel().getColumn(3).setHeaderValue("District");
+            StaffTable.getColumnModel().getColumn(4).setHeaderValue("City");
+            StaffTable.getColumnModel().getColumn(5).setHeaderValue("Phone");
+            StaffTable.getColumnModel().getColumn(6).setHeaderValue("Store");
+            StaffTable.getColumnModel().getColumn(7).setHeaderValue("Active Status");
             
         } catch (SQLException ex) {
             ex.getStackTrace();
@@ -48,9 +58,18 @@ public class JFrame extends javax.swing.JFrame {
 
             //String sql = "SELECT first_name, last_name, address, district, city, postal_code, phone, store, active FROM staff, address, city";
             stmt = conn.createStatement();
-            String sql = "SELECT title, release_year, rental_duration, rental_rate, replacement_cost, rating FROM film";
+            String sql = "SELECT title, release_year, rental_duration, language.name, rental_rate, replacement_cost, rating FROM film INNER JOIN language ON film.language_id=language.language_id";
             rs = stmt.executeQuery(sql);
             FilmsTable.setModel(buildTableModel(rs));
+            
+            FilmsTable.getColumnModel().getColumn(0).setHeaderValue("Title");
+            FilmsTable.getColumnModel().getColumn(1).setHeaderValue("Year");
+            FilmsTable.getColumnModel().getColumn(2).setHeaderValue("Rental Duration");
+            FilmsTable.getColumnModel().getColumn(3).setHeaderValue("Language");
+            FilmsTable.getColumnModel().getColumn(4).setHeaderValue("Rental Rate");
+            FilmsTable.getColumnModel().getColumn(5).setHeaderValue("Replacement Cost");
+            FilmsTable.getColumnModel().getColumn(6).setHeaderValue("Rating");
+            
 
         } catch (SQLException ex) {
             ex.getStackTrace();
