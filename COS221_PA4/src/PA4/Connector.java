@@ -19,7 +19,6 @@ public class Connector {
     private Connection conn;
     
     public Connector(String port, String username, String pass){
-        //Class.forName("org.mariadb.jdbc.Driver");
         this.port = port;
         url = "jdbc:mariadb://localhost:" + port + "/sakila";
                 

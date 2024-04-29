@@ -4,15 +4,14 @@
  */
 package PA4;
     import java.sql.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
 /**
  *
  * @author ruane
  */
 public class JFrame extends javax.swing.JFrame {
     private Connection conn;
-    private PreparedStatement stmt = null;
+    private Statement stmt = null;
     private ResultSet rs = null;
     
     /**
@@ -102,23 +101,22 @@ public class JFrame extends javax.swing.JFrame {
             .addGroup(StaffPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(StaffPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 951, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 951, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(StaffPanelLayout.createSequentialGroup()
                         .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 285, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(jButton1)
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
+                        .addComponent(jButton1)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         StaffPanelLayout.setVerticalGroup(
             StaffPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, StaffPanelLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap()
                 .addGroup(StaffPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton1))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 477, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 430, Short.MAX_VALUE)
                 .addGap(78, 78, 78))
         );
 
@@ -311,12 +309,13 @@ public class JFrame extends javax.swing.JFrame {
             // TODO add your handling code here:
             
             //String sql = "SELECT first_name, last_name, address, district, city, postal_code, phone, store, active FROM staff, address, city";
-            String sql = "SELECT first_name, last_name active FROM staff";
+            stmt = conn.createStatement();
+            String sql = "SELECT * FROM staff";
             rs = stmt.executeQuery(sql);
             StaffTable.setModel(DbUtils.resultSetToTableModel(rs));
             
         } catch (SQLException ex) {
-            Logger.getLogger(JFrame.class.getName()).log(Level.SEVERE, null, ex);
+            ex.getStackTrace();
         }
         
         
