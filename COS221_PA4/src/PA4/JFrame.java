@@ -4,12 +4,16 @@
  */
 package PA4;
     import java.sql.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 /**
  *
  * @author ruane
  */
 public class JFrame extends javax.swing.JFrame {
     private Connection conn;
+    private PreparedStatement stmt = null;
+    private ResultSet rs = null;
     
     /**
      * Creates new form JFrame
@@ -30,9 +34,9 @@ public class JFrame extends javax.swing.JFrame {
     private void initComponents() {
 
         JTabbedPane = new javax.swing.JTabbedPane();
-        jPanel1 = new javax.swing.JPanel();
+        StaffPanel = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        StaffTable = new javax.swing.JTable();
         jButton1 = new javax.swing.JButton();
         jTextField1 = new javax.swing.JTextField();
         jPanel2 = new javax.swing.JPanel();
@@ -53,10 +57,15 @@ public class JFrame extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("DVD Store (PA4)");
 
-        jPanel1.setToolTipText("");
-        jPanel1.setName("StaffPanel"); // NOI18N
+        StaffPanel.setToolTipText("");
+        StaffPanel.setName("StaffPanel"); // NOI18N
+        StaffPanel.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                StaffPanelMouseEntered(evt);
+            }
+        });
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        StaffTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null, null, null, null},
                 {null, null, null, null, null, null, null, null, null},
@@ -75,10 +84,10 @@ public class JFrame extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jTable1.setToolTipText("");
-        jTable1.setAutoscrolls(false);
-        jTable1.setName("StaffTable"); // NOI18N
-        jScrollPane1.setViewportView(jTable1);
+        StaffTable.setToolTipText("");
+        StaffTable.setAutoscrolls(false);
+        StaffTable.setName("StaffTable"); // NOI18N
+        jScrollPane1.setViewportView(StaffTable);
 
         jButton1.setText("Apply Filters");
         jButton1.setName("BtnApplyFilters"); // NOI18N
@@ -86,26 +95,26 @@ public class JFrame extends javax.swing.JFrame {
         jTextField1.setText("Filters");
         jTextField1.setName("EditFilters"); // NOI18N
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+        javax.swing.GroupLayout StaffPanelLayout = new javax.swing.GroupLayout(StaffPanel);
+        StaffPanel.setLayout(StaffPanelLayout);
+        StaffPanelLayout.setHorizontalGroup(
+            StaffPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(StaffPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(StaffPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 951, Short.MAX_VALUE)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
+                    .addGroup(StaffPanelLayout.createSequentialGroup()
                         .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 285, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(jButton1)
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+        StaffPanelLayout.setVerticalGroup(
+            StaffPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, StaffPanelLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(StaffPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton1))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -113,8 +122,8 @@ public class JFrame extends javax.swing.JFrame {
                 .addGap(78, 78, 78))
         );
 
-        JTabbedPane.addTab("Staff", null, jPanel1, "");
-        jPanel1.getAccessibleContext().setAccessibleName("");
+        JTabbedPane.addTab("Staff", null, StaffPanel, "");
+        StaffPanel.getAccessibleContext().setAccessibleName("");
 
         jPanel2.setName("FilmsPanel"); // NOI18N
 
@@ -297,6 +306,22 @@ public class JFrame extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void StaffPanelMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_StaffPanelMouseEntered
+        try {
+            // TODO add your handling code here:
+            
+            //String sql = "SELECT first_name, last_name, address, district, city, postal_code, phone, store, active FROM staff, address, city";
+            String sql = "SELECT first_name, last_name active FROM staff";
+            rs = stmt.executeQuery(sql);
+            StaffTable.setModel(DbUtils.resultSetToTableModel(rs));
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(JFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        
+    }//GEN-LAST:event_StaffPanelMouseEntered
+
     /**
      * @param args the command line arguments
      */
@@ -335,12 +360,13 @@ public class JFrame extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTabbedPane JTabbedPane;
     private javax.swing.JTable ReportTable;
+    private javax.swing.JPanel StaffPanel;
+    private javax.swing.JTable StaffTable;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
@@ -348,7 +374,6 @@ public class JFrame extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
-    private javax.swing.JTable jTable1;
     private javax.swing.JTable jTable2;
     private javax.swing.JTable jTable3;
     private javax.swing.JTextField jTextField1;
