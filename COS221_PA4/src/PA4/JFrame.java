@@ -19,9 +19,15 @@ public class JFrame extends javax.swing.JFrame {
     /**
      * Creates new form JFrame
      */
-    public JFrame() {
+    public JFrame(Connection conn) {
+        this.conn = conn;
         initComponents();
-        
+        staffTable();
+        refreshFilmsTable();
+
+    }
+    
+    private void staffTable(){
         try {
             // TODO add your handling code here:
             
@@ -35,9 +41,22 @@ public class JFrame extends javax.swing.JFrame {
             ex.getStackTrace();
         }
     }
-    public void setConnection(Connection conn){
-        this.conn = conn;
+    
+    private void refreshFilmsTable() {
+         try {
+            // TODO add your handling code here:
+
+            //String sql = "SELECT first_name, last_name, address, district, city, postal_code, phone, store, active FROM staff, address, city";
+            stmt = conn.createStatement();
+            String sql = "SELECT title, release_year, rental_duration, rental_rate, replacement_cost, rating FROM film";
+            rs = stmt.executeQuery(sql);
+            FilmsTable.setModel(buildTableModel(rs));
+
+        } catch (SQLException ex) {
+            ex.getStackTrace();
+        }
     }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -56,7 +75,7 @@ public class JFrame extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         jButton2 = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
+        FilmsTable = new javax.swing.JTable();
         jButton3 = new javax.swing.JButton();
         jComboBox1 = new javax.swing.JComboBox<>();
         jTextField2 = new javax.swing.JTextField();
@@ -143,7 +162,7 @@ public class JFrame extends javax.swing.JFrame {
         jButton2.setText("AddFilm");
         jButton2.setName("BtnAddFilm"); // NOI18N
 
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+        FilmsTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null},
                 {null, null, null, null, null, null},
@@ -162,9 +181,9 @@ public class JFrame extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jTable2.setToolTipText("");
-        jTable2.setName("FilmsTable"); // NOI18N
-        jScrollPane2.setViewportView(jTable2);
+        FilmsTable.setToolTipText("");
+        FilmsTable.setName("FilmsTable"); // NOI18N
+        jScrollPane2.setViewportView(FilmsTable);
 
         jButton3.setText("Search");
         jButton3.setName("Search"); // NOI18N
@@ -188,7 +207,7 @@ public class JFrame extends javax.swing.JFrame {
                     .addComponent(jScrollPane2)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 151, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 163, Short.MAX_VALUE)
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -304,10 +323,7 @@ public class JFrame extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(JTabbedPane)
-                .addContainerGap())
+            .addComponent(JTabbedPane, javax.swing.GroupLayout.Alignment.TRAILING)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -382,12 +398,13 @@ public class JFrame extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new JFrame().setVisible(true);
+                new JFrame(null).setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTable FilmsTable;
     private javax.swing.JTabbedPane JTabbedPane;
     private javax.swing.JTable ReportTable;
     private javax.swing.JPanel StaffPanel;
@@ -404,7 +421,6 @@ public class JFrame extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
-    private javax.swing.JTable jTable2;
     private javax.swing.JTable jTable3;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;

@@ -131,12 +131,12 @@ public class Login extends javax.swing.JFrame {
         Connector connect = new Connector(port, username, password);
         Connection conn = connect.getConnection();
         if(conn != null){
-            JFrame x = new JFrame();
-            
-            x.setConnection(conn);
+            JFrame x = new JFrame(conn);
+           
             
             this.setVisible(false);
             x.setVisible(true);
+            
             /* 
                 HomeScreen.welcomeUser = (txfUsername.getText());
                  MainGUI.recieveUsername = (txfUsername.getText());
