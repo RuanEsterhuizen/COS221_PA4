@@ -38,6 +38,8 @@ public class Login extends javax.swing.JFrame {
         LoginPassTextBox = new javax.swing.JPasswordField();
         Heading = new javax.swing.JLabel();
         Errorlbl = new javax.swing.JLabel();
+        Port = new javax.swing.JLabel();
+        PortTextBox = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -59,6 +61,8 @@ public class Login extends javax.swing.JFrame {
         Errorlbl.setForeground(new java.awt.Color(255, 51, 51));
         Errorlbl.setText("Error");
 
+        Port.setText("Port");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -66,54 +70,65 @@ public class Login extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(131, 131, 131)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel1))
-                        .addGap(73, 73, 73)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(LoginButton)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(LoginUserTextBox)
-                                .addComponent(LoginPassTextBox, javax.swing.GroupLayout.DEFAULT_SIZE, 180, Short.MAX_VALUE))))
-                    .addGroup(layout.createSequentialGroup()
                         .addGap(230, 230, 230)
                         .addComponent(Heading, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(272, 272, 272)
-                        .addComponent(Errorlbl)))
-                .addContainerGap(174, Short.MAX_VALUE))
+                        .addComponent(Errorlbl))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(128, 128, 128)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(Port)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jLabel1)
+                                    .addComponent(jLabel2))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(76, 76, 76)
+                                        .addComponent(LoginButton))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(49, 49, 49)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                            .addComponent(LoginUserTextBox, javax.swing.GroupLayout.DEFAULT_SIZE, 180, Short.MAX_VALUE)
+                                            .addComponent(LoginPassTextBox, javax.swing.GroupLayout.DEFAULT_SIZE, 180, Short.MAX_VALUE)
+                                            .addComponent(PortTextBox))))))))
+                .addContainerGap(201, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(43, 43, 43)
                 .addComponent(Heading)
-                .addGap(53, 53, 53)
+                .addGap(78, 78, 78)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(Port)
+                    .addComponent(PortTextBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(LoginUserTextBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(54, 54, 54)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(LoginPassTextBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(54, 54, 54)
+                .addGap(31, 31, 31)
                 .addComponent(LoginButton)
                 .addGap(18, 18, 18)
                 .addComponent(Errorlbl)
-                .addContainerGap(61, Short.MAX_VALUE))
+                .addContainerGap(55, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void LoginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LoginButtonActionPerformed
-        
+        String port = PortTextBox.getText();
         String username = LoginUserTextBox.getText();
         char[] pass = LoginPassTextBox.getPassword();
         String password = new String(pass);
         
-        Connector connect = new Connector(username, password);
+        Connector connect = new Connector(port, username, password);
         Connection conn = connect.getConnection();
         if(conn != null){
             JFrame x = new JFrame();
@@ -177,6 +192,8 @@ public class Login extends javax.swing.JFrame {
     private javax.swing.JButton LoginButton;
     private javax.swing.JPasswordField LoginPassTextBox;
     private javax.swing.JTextField LoginUserTextBox;
+    private javax.swing.JLabel Port;
+    private javax.swing.JTextField PortTextBox;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     // End of variables declaration//GEN-END:variables

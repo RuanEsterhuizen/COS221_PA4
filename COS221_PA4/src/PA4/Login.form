@@ -26,21 +26,6 @@
           <Group type="102" attributes="0">
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace min="-2" pref="131" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="1" attributes="0">
-                          <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
-                          <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
-                      </Group>
-                      <EmptySpace min="-2" pref="73" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="LoginButton" min="-2" max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                              <Component id="LoginUserTextBox" alignment="0" max="32767" attributes="0"/>
-                              <Component id="LoginPassTextBox" alignment="0" pref="180" max="32767" attributes="0"/>
-                          </Group>
-                      </Group>
-                  </Group>
-                  <Group type="102" alignment="0" attributes="0">
                       <EmptySpace min="-2" pref="230" max="-2" attributes="0"/>
                       <Component id="Heading" min="-2" pref="150" max="-2" attributes="0"/>
                   </Group>
@@ -48,8 +33,34 @@
                       <EmptySpace min="-2" pref="272" max="-2" attributes="0"/>
                       <Component id="Errorlbl" min="-2" max="-2" attributes="0"/>
                   </Group>
+                  <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace min="-2" pref="128" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="Port" min="-2" max="-2" attributes="0"/>
+                          <Group type="102" attributes="0">
+                              <Group type="103" groupAlignment="1" attributes="0">
+                                  <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Group type="102" attributes="0">
+                                      <EmptySpace min="-2" pref="76" max="-2" attributes="0"/>
+                                      <Component id="LoginButton" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                                  <Group type="102" alignment="0" attributes="0">
+                                      <EmptySpace min="-2" pref="49" max="-2" attributes="0"/>
+                                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                          <Component id="LoginUserTextBox" pref="180" max="32767" attributes="0"/>
+                                          <Component id="LoginPassTextBox" pref="180" max="32767" attributes="0"/>
+                                          <Component id="PortTextBox" alignment="0" max="32767" attributes="0"/>
+                                      </Group>
+                                  </Group>
+                              </Group>
+                          </Group>
+                      </Group>
+                  </Group>
               </Group>
-              <EmptySpace pref="174" max="32767" attributes="0"/>
+              <EmptySpace pref="201" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -58,21 +69,26 @@
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace min="-2" pref="43" max="-2" attributes="0"/>
               <Component id="Heading" min="-2" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="53" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="78" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="Port" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="PortTextBox" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace type="separate" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="jLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="LoginUserTextBox" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace min="-2" pref="54" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
-                  <Component id="LoginPassTextBox" min="-2" max="-2" attributes="0"/>
+              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="jLabel2" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="LoginPassTextBox" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace min="-2" pref="54" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="31" max="-2" attributes="0"/>
               <Component id="LoginButton" min="-2" max="-2" attributes="0"/>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Component id="Errorlbl" min="-2" max="-2" attributes="0"/>
-              <EmptySpace pref="61" max="32767" attributes="0"/>
+              <EmptySpace pref="55" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -118,6 +134,13 @@
         </Property>
         <Property name="text" type="java.lang.String" value="Error"/>
       </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="Port">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Port"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JTextField" name="PortTextBox">
     </Component>
   </SubComponents>
 </Form>

@@ -5,7 +5,7 @@
 package PA4;
 import java.sql.*;
 import java.io.*;
-
+//disconnects because of database name
 /**
  *
  * @author ruben
@@ -15,11 +15,14 @@ public class Connector {
     private String url;
     private String username;
     private String pass;
+    private String port;
     private Connection conn;
     
-    public Connector(String username, String pass){
+    public Connector(String port, String username, String pass){
         //Class.forName("org.mariadb.jdbc.Driver");
-        url = "jdbc:mariadb://localhost:3306/sakila";
+        this.port = port;
+        url = "jdbc:mariadb://localhost:" + port + "/sakila";
+                
         this.username = username;
         this.pass = pass;
         
