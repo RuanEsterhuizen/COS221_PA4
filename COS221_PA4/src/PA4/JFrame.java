@@ -30,6 +30,7 @@ public class JFrame extends javax.swing.JFrame {
         String filmsSQL = "SELECT title, release_year, rental_duration, language.name, rental_rate, replacement_cost, rating FROM film INNER JOIN language ON film.language_id=language.language_id";
         refreshFilmsTable(filmsSQL);
         reportTab();
+        notificationTable();
 
     }
     
@@ -114,6 +115,25 @@ public class JFrame extends javax.swing.JFrame {
         }
     }
     
+    private void notificationTable(){
+        try {
+
+            stmt = conn.createStatement();
+            String sql = "SELECT customer_id, first_name, last_name, email FROM customer";
+            rs = stmt.executeQuery(sql);
+            NotificationTable.setModel(buildTableModel(rs));
+            NotificationTable.getColumnModel().getColumn(0).setHeaderValue("Customer ID");
+            NotificationTable.getColumnModel().getColumn(1).setHeaderValue("First Name");
+            NotificationTable.getColumnModel().getColumn(2).setHeaderValue("Last Name");
+            NotificationTable.getColumnModel().getColumn(3).setHeaderValue("Email");
+
+            
+
+        } catch (SQLException ex) {
+            ex.getStackTrace();
+        }
+    }
+    
     private void position(){
          SwingUtilities.invokeLater(() -> {
         this.pack(); // Automatically size the frame
@@ -151,7 +171,7 @@ public class JFrame extends javax.swing.JFrame {
         ReportTable = new javax.swing.JTable();
         jPanel4 = new javax.swing.JPanel();
         jScrollPane4 = new javax.swing.JScrollPane();
-        jTable3 = new javax.swing.JTable();
+        NotificationTable = new javax.swing.JTable();
 
         javax.swing.GroupLayout InputBoxLayout = new javax.swing.GroupLayout(InputBox.getContentPane());
         InputBox.getContentPane().setLayout(InputBoxLayout);
@@ -371,7 +391,7 @@ public class JFrame extends javax.swing.JFrame {
 
         jPanel4.setName("NotificationPanel"); // NOI18N
 
-        jTable3.setModel(new javax.swing.table.DefaultTableModel(
+        NotificationTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -390,7 +410,7 @@ public class JFrame extends javax.swing.JFrame {
                 return types [columnIndex];
             }
         });
-        jScrollPane4.setViewportView(jTable3);
+        jScrollPane4.setViewportView(NotificationTable);
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -544,6 +564,7 @@ public class JFrame extends javax.swing.JFrame {
     private javax.swing.JTable FilmsTable;
     private javax.swing.JDialog InputBox;
     private javax.swing.JTabbedPane JTabbedPane;
+    private javax.swing.JTable NotificationTable;
     private javax.swing.JTable ReportTable;
     private javax.swing.JComboBox<String> SearchBy;
     private javax.swing.JTextField SearchText;
@@ -558,7 +579,6 @@ public class JFrame extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
-    private javax.swing.JTable jTable3;
     private javax.swing.JTextField jTextField1;
     // End of variables declaration//GEN-END:variables
 }
