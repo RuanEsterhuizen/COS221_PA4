@@ -8,7 +8,8 @@ package PA4;
     import javax.swing.table.DefaultTableModel;
 import javax.swing.*;
 import java.awt.*;
-//Kom ons kyk of hierdie hier bly
+import java.util.logging.Level;
+import java.util.logging.Logger;
 /**
  *
  * @author ruane
@@ -56,13 +57,13 @@ public class JFrame extends javax.swing.JFrame {
         }
     }
     
-    private void refreshFilmsTable() {
+    private void refreshFilmsTable(String sql) {
          try {
             // TODO add your handling code here:
 
             //String sql = "SELECT first_name, last_name, address, district, city, postal_code, phone, store, active FROM staff, address, city";
             stmt = conn.createStatement();
-            String sql = "SELECT title, release_year, rental_duration, language.name, rental_rate, replacement_cost, rating FROM film INNER JOIN language ON film.language_id=language.language_id";
+            
             rs = stmt.executeQuery(sql);
             FilmsTable.setModel(buildTableModel(rs));
             
@@ -129,6 +130,7 @@ public class JFrame extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        InputBox = new javax.swing.JDialog();
         JTabbedPane = new javax.swing.JTabbedPane();
         StaffPanel = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -136,12 +138,12 @@ public class JFrame extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         jTextField1 = new javax.swing.JTextField();
         jPanel2 = new javax.swing.JPanel();
-        jButton2 = new javax.swing.JButton();
+        AddFilm = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         FilmsTable = new javax.swing.JTable();
-        jButton3 = new javax.swing.JButton();
-        jComboBox1 = new javax.swing.JComboBox<>();
-        jTextField2 = new javax.swing.JTextField();
+        BtnSearch = new javax.swing.JButton();
+        SearchBy = new javax.swing.JComboBox<>();
+        SearchText = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
@@ -149,6 +151,17 @@ public class JFrame extends javax.swing.JFrame {
         jPanel4 = new javax.swing.JPanel();
         jScrollPane4 = new javax.swing.JScrollPane();
         jTable3 = new javax.swing.JTable();
+
+        javax.swing.GroupLayout InputBoxLayout = new javax.swing.GroupLayout(InputBox.getContentPane());
+        InputBox.getContentPane().setLayout(InputBoxLayout);
+        InputBoxLayout.setHorizontalGroup(
+            InputBoxLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 400, Short.MAX_VALUE)
+        );
+        InputBoxLayout.setVerticalGroup(
+            InputBoxLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 300, Short.MAX_VALUE)
+        );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("DVD Store (PA4)");
@@ -223,8 +236,13 @@ public class JFrame extends javax.swing.JFrame {
 
         jPanel2.setName("FilmsPanel"); // NOI18N
 
-        jButton2.setText("AddFilm");
-        jButton2.setName("BtnAddFilm"); // NOI18N
+        AddFilm.setText("AddFilm");
+        AddFilm.setName("BtnAddFilm"); // NOI18N
+        AddFilm.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                AddFilmMouseClicked(evt);
+            }
+        });
 
         FilmsTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -249,14 +267,24 @@ public class JFrame extends javax.swing.JFrame {
         FilmsTable.setName("FilmsTable"); // NOI18N
         jScrollPane2.setViewportView(FilmsTable);
 
-        jButton3.setText("Search");
-        jButton3.setName("Search"); // NOI18N
+        BtnSearch.setText("Search");
+        BtnSearch.setName("Search"); // NOI18N
+        BtnSearch.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                BtnSearchMouseClicked(evt);
+            }
+        });
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Title", "Release year", "Keyword" }));
-        jComboBox1.setName("SearchBy"); // NOI18N
+        SearchBy.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "title", "release_year", "rating" }));
+        SearchBy.setName("SearchBy"); // NOI18N
+        SearchBy.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                SearchByActionPerformed(evt);
+            }
+        });
 
-        jTextField2.setText("Search");
-        jTextField2.setName("Searchterm"); // NOI18N
+        SearchText.setText("Search");
+        SearchText.setName("Searchterm"); // NOI18N
 
         jLabel1.setText("Search By:");
         jLabel1.setName("LblSearchBy"); // NOI18N
@@ -270,15 +298,15 @@ public class JFrame extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane2)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(AddFilm, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 163, Short.MAX_VALUE)
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(SearchBy, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 217, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(SearchText, javax.swing.GroupLayout.PREFERRED_SIZE, 217, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(BtnSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -286,10 +314,10 @@ public class JFrame extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(25, 25, 25)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton2)
-                    .addComponent(jButton3)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(AddFilm)
+                    .addComponent(BtnSearch)
+                    .addComponent(SearchBy, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(SearchText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel1))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 477, Short.MAX_VALUE)
@@ -405,6 +433,48 @@ public class JFrame extends javax.swing.JFrame {
         
     }//GEN-LAST:event_StaffPanelMouseEntered
 
+    private void BtnSearchMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BtnSearchMouseClicked
+        // TODO add your handling code here:
+        String criteria = SearchBy.getSelectedItem().toString();
+        String value = '"'+SearchText.getText()+'"';
+        String statement = "SELECT title, release_year, rental_duration, language.name, rental_rate, replacement_cost, rating"+
+                " FROM film INNER JOIN language ON film.language_id = language.language_id WHERE "+criteria+" = "+value;
+        
+        refreshFilmsTable(statement);
+    }//GEN-LAST:event_BtnSearchMouseClicked
+
+    private void SearchByActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SearchByActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_SearchByActionPerformed
+
+    private void AddFilmMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_AddFilmMouseClicked
+
+        String title = '"'+JOptionPane.showInputDialog("enter the film's title") +'"';
+        String desc = '"'+JOptionPane.showInputDialog("enter a short description of the film")+'"';
+        String year = JOptionPane.showInputDialog("enter the release year of the film");
+        String lang = JOptionPane.showInputDialog("enter the language of the film");
+        String rental_duration = JOptionPane.showInputDialog("enter the rental duration of the film");
+        String rental_rate = JOptionPane.showInputDialog("enter the rental rate of the film");
+        String replacement_cost = JOptionPane.showInputDialog("enter the replacement cost of the film");
+        String length = JOptionPane.showInputDialog("enter the length of the film");
+        String rating = '"'+JOptionPane.showInputDialog("enter the rating of the film")+'"';
+        String special_features = '"'+JOptionPane.showInputDialog("enter any special features of the film")+'"';
+        
+        String sql = "INSERT INTO film (title,description,release_year,language_id,rental_duration,rental_rate,length,replacement_cost,rating,special_features) "+
+                "VALUES ("+title+","+desc+","+year+",1,"+rental_duration+","+rental_rate+","+replacement_cost+","+
+                length+","+rating+","+special_features+")";
+        
+        try {
+            stmt.execute(sql);
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(this,"There was an error in the input data");
+        }
+        
+        
+        String filmsSQL = "SELECT title, release_year, rental_duration, language.name, rental_rate, replacement_cost, rating FROM film INNER JOIN language ON film.language_id=language.language_id";
+        refreshFilmsTable(filmsSQL);
+    }//GEN-LAST:event_AddFilmMouseClicked
+
     
     public static DefaultTableModel buildTableModel(ResultSet rs)
         throws SQLException {
@@ -468,15 +538,17 @@ public class JFrame extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton AddFilm;
+    private javax.swing.JButton BtnSearch;
     private javax.swing.JTable FilmsTable;
+    private javax.swing.JDialog InputBox;
     private javax.swing.JTabbedPane JTabbedPane;
     private javax.swing.JTable ReportTable;
+    private javax.swing.JComboBox<String> SearchBy;
+    private javax.swing.JTextField SearchText;
     private javax.swing.JPanel StaffPanel;
     private javax.swing.JTable StaffTable;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
@@ -487,6 +559,5 @@ public class JFrame extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JTable jTable3;
     private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
     // End of variables declaration//GEN-END:variables
 }
