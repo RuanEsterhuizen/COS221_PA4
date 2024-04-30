@@ -26,7 +26,8 @@ public class JFrame extends javax.swing.JFrame {
         this.conn = conn;
         initComponents();
         staffTable();
-        refreshFilmsTable();
+        String filmsSQL = "SELECT title, release_year, rental_duration, language.name, rental_rate, replacement_cost, rating FROM film INNER JOIN language ON film.language_id=language.language_id";
+        refreshFilmsTable(filmsSQL);
 
     }
     
@@ -55,13 +56,13 @@ public class JFrame extends javax.swing.JFrame {
         }
     }
     
-    private void refreshFilmsTable() {
+    private void refreshFilmsTable(String sql) {
          try {
             // TODO add your handling code here:
 
             //String sql = "SELECT first_name, last_name, address, district, city, postal_code, phone, store, active FROM staff, address, city";
             stmt = conn.createStatement();
-            String sql = "SELECT title, release_year, rental_duration, language.name, rental_rate, replacement_cost, rating FROM film INNER JOIN language ON film.language_id=language.language_id";
+            
             rs = stmt.executeQuery(sql);
             FilmsTable.setModel(buildTableModel(rs));
             
@@ -106,9 +107,9 @@ public class JFrame extends javax.swing.JFrame {
         jButton2 = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         FilmsTable = new javax.swing.JTable();
-        jButton3 = new javax.swing.JButton();
-        jComboBox1 = new javax.swing.JComboBox<>();
-        jTextField2 = new javax.swing.JTextField();
+        BtnSearch = new javax.swing.JButton();
+        SearchBy = new javax.swing.JComboBox<>();
+        SearchText = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
@@ -216,14 +217,24 @@ public class JFrame extends javax.swing.JFrame {
         FilmsTable.setName("FilmsTable"); // NOI18N
         jScrollPane2.setViewportView(FilmsTable);
 
-        jButton3.setText("Search");
-        jButton3.setName("Search"); // NOI18N
+        BtnSearch.setText("Search");
+        BtnSearch.setName("Search"); // NOI18N
+        BtnSearch.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                BtnSearchMouseClicked(evt);
+            }
+        });
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Title", "Release year", "Keyword" }));
-        jComboBox1.setName("SearchBy"); // NOI18N
+        SearchBy.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "title", "release_year", "rating" }));
+        SearchBy.setName("SearchBy"); // NOI18N
+        SearchBy.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                SearchByActionPerformed(evt);
+            }
+        });
 
-        jTextField2.setText("Search");
-        jTextField2.setName("Searchterm"); // NOI18N
+        SearchText.setText("Search");
+        SearchText.setName("Searchterm"); // NOI18N
 
         jLabel1.setText("Search By:");
         jLabel1.setName("LblSearchBy"); // NOI18N
@@ -241,11 +252,11 @@ public class JFrame extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 163, Short.MAX_VALUE)
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(SearchBy, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 217, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(SearchText, javax.swing.GroupLayout.PREFERRED_SIZE, 217, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(BtnSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -254,9 +265,9 @@ public class JFrame extends javax.swing.JFrame {
                 .addGap(25, 25, 25)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton2)
-                    .addComponent(jButton3)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(BtnSearch)
+                    .addComponent(SearchBy, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(SearchText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel1))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 477, Short.MAX_VALUE)
@@ -372,6 +383,20 @@ public class JFrame extends javax.swing.JFrame {
         
     }//GEN-LAST:event_StaffPanelMouseEntered
 
+    private void BtnSearchMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BtnSearchMouseClicked
+        // TODO add your handling code here:
+        String criteria = SearchBy.getSelectedItem().toString();
+        String value = '"'+SearchText.getText()+'"';
+        String statement = "SELECT title, release_year, rental_duration, language.name, rental_rate, replacement_cost, rating"+
+                " FROM film INNER JOIN language ON film.language_id = language.language_id WHERE "+criteria+" = "+value;
+        
+        refreshFilmsTable(statement);
+    }//GEN-LAST:event_BtnSearchMouseClicked
+
+    private void SearchByActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SearchByActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_SearchByActionPerformed
+
     
     public static DefaultTableModel buildTableModel(ResultSet rs)
         throws SQLException {
@@ -435,15 +460,16 @@ public class JFrame extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton BtnSearch;
     private javax.swing.JTable FilmsTable;
     private javax.swing.JTabbedPane JTabbedPane;
     private javax.swing.JTable ReportTable;
+    private javax.swing.JComboBox<String> SearchBy;
+    private javax.swing.JTextField SearchText;
     private javax.swing.JPanel StaffPanel;
     private javax.swing.JTable StaffTable;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
@@ -454,6 +480,5 @@ public class JFrame extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JTable jTable3;
     private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
     // End of variables declaration//GEN-END:variables
 }
