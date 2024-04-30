@@ -27,7 +27,8 @@ public class JFrame extends javax.swing.JFrame {
         this.conn = conn;
         initComponents();
         staffTable();
-        refreshFilmsTable();
+        String filmsSQL = "SELECT title, release_year, rental_duration, language.name, rental_rate, replacement_cost, rating FROM film INNER JOIN language ON film.language_id=language.language_id";
+        refreshFilmsTable(filmsSQL);
         reportTab();
 
     }
@@ -85,7 +86,7 @@ public class JFrame extends javax.swing.JFrame {
         try {
 
             stmt = conn.createStatement();
-            String sql = "SELECT\n" +
+            String sql = "SELECT " +
                         "    CONCAT(c.city, ',', cy.country) AS store, " +
                         "    cat.name AS category, " +
                         "    COUNT(DISTINCT f.film_id) AS NumberOfMoviesPerGenre " +
