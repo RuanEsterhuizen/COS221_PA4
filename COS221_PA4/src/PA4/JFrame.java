@@ -613,7 +613,34 @@ public class JFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_ApplyFiltersActionPerformed
 
     private void DeleteNotiMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_DeleteNotiMouseClicked
-        
+        String userID = JOptionPane.showInputDialog("Enter the userID of the user to be deleted");
+
+        String sqlr = "DELETE FROM rental WHERE customer_id = "+userID;
+
+        try {
+            stmt.execute(sqlr);
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(this,"User could not be deleted");
+        }
+
+        String sqlp = "DELETE FROM payment WHERE customer_id = "+userID;
+
+        try {
+            stmt.execute(sqlp);
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(this,"User could not be deleted");
+        }
+
+        String sql = "DELETE FROM customer WHERE customer_id = "+userID;
+
+        try {
+            stmt.execute(sql);
+            JOptionPane.showMessageDialog(this,"User deleted successfully ");
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(this,"User could not be deleted");
+        }
+
+        notificationTable();
     }//GEN-LAST:event_DeleteNotiMouseClicked
 
     private void UpdateNotiMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_UpdateNotiMouseClicked
@@ -660,35 +687,7 @@ public class JFrame extends javax.swing.JFrame {
         
         notificationTable();
     }//GEN-LAST:event_UpdateNotiMouseClicked
-        String userID = JOptionPane.showInputDialog("Enter the userID of the user to be deleted");
-        
-        String sqlr = "DELETE FROM rental WHERE customer_id = "+userID;
-        
-        try {
-            stmt.execute(sqlr);
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(this,"User could not be deleted");
-        }
-        
-        String sqlp = "DELETE FROM payment WHERE customer_id = "+userID;
-        
-        try {
-            stmt.execute(sqlp);
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(this,"User could not be deleted");
-        }
-        
-        String sql = "DELETE FROM customer WHERE customer_id = "+userID;
-        
-        try {
-            stmt.execute(sql);
-            JOptionPane.showMessageDialog(this,"User deleted successfully ");
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(this,"User could not be deleted");
-        }
-        
-        notificationTable();
-    }//GEN-LAST:event_DeleteNotiMouseClicked
+                             
 
     private void InactiveUsersMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_InactiveUsersMouseClicked
         try {
