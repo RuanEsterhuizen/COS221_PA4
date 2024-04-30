@@ -10,6 +10,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.lang.Math;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 /**
  *
  * @author ruane
@@ -156,9 +159,8 @@ public class JFrame extends javax.swing.JFrame {
         StaffPanel = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         StaffTable = new javax.swing.JTable();
-        ApplyFilters = new javax.swing.JButton();
-        FilterLName = new javax.swing.JTextField();
-        FilterFname = new javax.swing.JTextField();
+        jButton1 = new javax.swing.JButton();
+        jTextField1 = new javax.swing.JTextField();
         jPanel2 = new javax.swing.JPanel();
         AddFilm = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
@@ -173,6 +175,9 @@ public class JFrame extends javax.swing.JFrame {
         jPanel4 = new javax.swing.JPanel();
         jScrollPane4 = new javax.swing.JScrollPane();
         NotificationTable = new javax.swing.JTable();
+        DeleteNoti = new javax.swing.JButton();
+        UpdateNoti = new javax.swing.JButton();
+        InsertNoti = new javax.swing.JButton();
 
         javax.swing.GroupLayout InputBoxLayout = new javax.swing.GroupLayout(InputBox.getContentPane());
         InputBox.getContentPane().setLayout(InputBoxLayout);
@@ -221,17 +226,11 @@ public class JFrame extends javax.swing.JFrame {
         StaffTable.setName("StaffTable"); // NOI18N
         jScrollPane1.setViewportView(StaffTable);
 
-        ApplyFilters.setText("Apply Filters");
-        ApplyFilters.setName("BtnApplyFilters"); // NOI18N
-        ApplyFilters.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                ApplyFiltersMouseClicked(evt);
-            }
-        });
+        jButton1.setText("Apply Filters");
+        jButton1.setName("BtnApplyFilters"); // NOI18N
 
-        FilterLName.setText("Last Name");
-
-        FilterFname.setText("First name");
+        jTextField1.setText("Filters");
+        jTextField1.setName("EditFilters"); // NOI18N
 
         javax.swing.GroupLayout StaffPanelLayout = new javax.swing.GroupLayout(StaffPanel);
         StaffPanel.setLayout(StaffPanelLayout);
@@ -242,23 +241,19 @@ public class JFrame extends javax.swing.JFrame {
                 .addGroup(StaffPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 951, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(StaffPanelLayout.createSequentialGroup()
-                        .addGap(10, 10, 10)
-                        .addComponent(FilterFname, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 285, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(FilterLName, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(ApplyFilters)))
-                .addContainerGap(18, Short.MAX_VALUE))
+                        .addComponent(jButton1)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         StaffPanelLayout.setVerticalGroup(
             StaffPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, StaffPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(StaffPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(FilterLName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(FilterFname, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(ApplyFilters))
-                .addGap(12, 12, 12)
+                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton1))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 430, Short.MAX_VALUE)
                 .addGap(78, 78, 78))
         );
@@ -423,20 +418,45 @@ public class JFrame extends javax.swing.JFrame {
         });
         jScrollPane4.setViewportView(NotificationTable);
 
+        DeleteNoti.setText("Delete");
+
+        UpdateNoti.setText("Update");
+
+        InsertNoti.setText("Insert");
+        InsertNoti.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                InsertNotiMouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 951, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addContainerGap(18, Short.MAX_VALUE)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
+                        .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 951, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap())
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
+                        .addComponent(InsertNoti, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(39, 39, 39)
+                        .addComponent(DeleteNoti, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(43, 43, 43)
+                        .addComponent(UpdateNoti, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(288, 288, 288))))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
-                .addGap(126, 126, 126)
-                .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 387, Short.MAX_VALUE)
+                .addGap(48, 48, 48)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(DeleteNoti)
+                    .addComponent(InsertNoti)
+                    .addComponent(UpdateNoti))
+                .addGap(61, 61, 61)
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 381, Short.MAX_VALUE)
                 .addGap(36, 36, 36))
         );
 
@@ -507,36 +527,31 @@ public class JFrame extends javax.swing.JFrame {
         refreshFilmsTable(filmsSQL);
     }//GEN-LAST:event_AddFilmMouseClicked
 
-    private void ApplyFiltersMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ApplyFiltersMouseClicked
-        // TODO add your handling code here:
-        String fname = '"'+FilterFname.getText()+'"';
-        String lname = '"'+FilterLName.getText() +'"';
+    private void InsertNotiMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_InsertNotiMouseClicked
+        String store_id = '"'+JOptionPane.showInputDialog("Enter store id") +'"';
+        String first_name = '"'+JOptionPane.showInputDialog("Enter your First Name")+'"';
+        String last_name = '"'+JOptionPane.showInputDialog("Enter your Last Name")+'"';
+        String email = '"'+JOptionPane.showInputDialog("Enter your email address")+'"';
+        String address_id = "" + (int)(Math.random() * ((600 - 1 + 1) + 1));
+        LocalDateTime currentDateTime = LocalDateTime.now();
+        
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
+        String created_date = currentDateTime.format(formatter);
+        
+        String sql = "INSERT INTO customer (store_id, first_name, last_name, email, address_id, create_date) "+
+             "VALUES (" + store_id + ", " + first_name + ", " + last_name + ", " + email + ", " + address_id + ", '" + created_date + "')";
+
         
         try {
-            // TODO add your handling code here:
-            
-            //String sql = "SELECT first_name, last_name, address, district, city, postal_code, phone, store, active FROM staff, address, city";
-            stmt = conn.createStatement();
-            String sql = "SELECT first_name,last_name, address.address, address.district, city.city, address.phone, store_id, active FROM staff "+
-                    "INNER JOIN address ON staff.address_id=address.address_id INNER JOIN city ON address.city_id=city.city_id "+
-                    "WHERE first_name = "+fname+" AND last_name = "+lname;
-            
-            rs = stmt.executeQuery(sql);
-            StaffTable.setModel(buildTableModel(rs));
-            
-            StaffTable.getColumnModel().getColumn(0).setHeaderValue("FirstName");
-            StaffTable.getColumnModel().getColumn(1).setHeaderValue("LastName");
-            StaffTable.getColumnModel().getColumn(2).setHeaderValue("Address");
-            StaffTable.getColumnModel().getColumn(3).setHeaderValue("District");
-            StaffTable.getColumnModel().getColumn(4).setHeaderValue("City");
-            StaffTable.getColumnModel().getColumn(5).setHeaderValue("Phone");
-            StaffTable.getColumnModel().getColumn(6).setHeaderValue("Store");
-            StaffTable.getColumnModel().getColumn(7).setHeaderValue("Active Status");
-            
+            stmt.execute(sql);
         } catch (SQLException ex) {
-            ex.getStackTrace();
+            JOptionPane.showMessageDialog(this,"There was an error in the input data");
         }
-    }//GEN-LAST:event_ApplyFiltersMouseClicked
+        
+        
+        notificationTable();
+    }//GEN-LAST:event_InsertNotiMouseClicked
 
     
     public static DefaultTableModel buildTableModel(ResultSet rs)
@@ -602,12 +617,11 @@ public class JFrame extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton AddFilm;
-    private javax.swing.JButton ApplyFilters;
     private javax.swing.JButton BtnSearch;
+    private javax.swing.JButton DeleteNoti;
     private javax.swing.JTable FilmsTable;
-    private javax.swing.JTextField FilterFname;
-    private javax.swing.JTextField FilterLName;
     private javax.swing.JDialog InputBox;
+    private javax.swing.JButton InsertNoti;
     private javax.swing.JTabbedPane JTabbedPane;
     private javax.swing.JTable NotificationTable;
     private javax.swing.JTable ReportTable;
@@ -615,6 +629,8 @@ public class JFrame extends javax.swing.JFrame {
     private javax.swing.JTextField SearchText;
     private javax.swing.JPanel StaffPanel;
     private javax.swing.JTable StaffTable;
+    private javax.swing.JButton UpdateNoti;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
@@ -623,5 +639,6 @@ public class JFrame extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JTextField jTextField1;
     // End of variables declaration//GEN-END:variables
 }
