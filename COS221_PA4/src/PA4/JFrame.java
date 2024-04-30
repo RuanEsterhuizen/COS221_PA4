@@ -229,11 +229,6 @@ public class JFrame extends javax.swing.JFrame {
 
         ApplyFilters.setText("Apply Filters");
         ApplyFilters.setName("BtnApplyFilters"); // NOI18N
-        ApplyFilters.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                ApplyFiltersMouseClicked(evt);
-            }
-        });
         ApplyFilters.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 ApplyFiltersActionPerformed(evt);
