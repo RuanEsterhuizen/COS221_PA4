@@ -27,6 +27,7 @@ public class JFrame extends javax.swing.JFrame {
         initComponents();
         staffTable();
         refreshFilmsTable();
+        reportTab();
 
     }
     
@@ -72,6 +73,38 @@ public class JFrame extends javax.swing.JFrame {
             FilmsTable.getColumnModel().getColumn(4).setHeaderValue("Rental Rate");
             FilmsTable.getColumnModel().getColumn(5).setHeaderValue("Replacement Cost");
             FilmsTable.getColumnModel().getColumn(6).setHeaderValue("Rating");
+            
+
+        } catch (SQLException ex) {
+            ex.getStackTrace();
+        }
+    }
+    
+    private void reportTab(){
+        try {
+
+            stmt = conn.createStatement();
+            String sql = "SELECT\n" +
+                        "    CONCAT(c.city, ',', cy.country) AS store, " +
+                        "    cat.name AS category, " +
+                        "    COUNT(DISTINCT f.film_id) AS NumberOfMoviesPerGenre " +
+                        "FROM " +
+                        "    inventory AS i " +
+                        "    INNER JOIN store AS s ON i.store_id = s.store_id " +
+                        "    INNER JOIN address AS a ON s.address_id = a.address_id " +
+                        "    INNER JOIN city AS c ON a.city_id = c.city_id " +
+                        "    INNER JOIN country AS cy ON c.country_id = cy.country_id " +
+                        "    INNER JOIN staff AS m ON s.manager_staff_id = m.staff_id " +
+                        "    INNER JOIN film AS f ON i.film_id = f.film_id " +
+                        "    INNER JOIN film_category AS fc ON f.film_id = fc.film_id " +
+                        "    INNER JOIN category AS cat ON fc.category_id = cat.category_id " +
+                        "    GROUP BY cat.category_id, store ";
+            rs = stmt.executeQuery(sql);
+            ReportTable.setModel(buildTableModel(rs));
+            //ReportTable.getColumnModel().getColumn(0).setHeaderValue("Store");
+            ReportTable.getColumnModel().getColumn(0).setHeaderValue("Genre");
+            ReportTable.getColumnModel().getColumn(1).setHeaderValue("Number of Movies Per Genre");
+
             
 
         } catch (SQLException ex) {
