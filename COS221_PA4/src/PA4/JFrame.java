@@ -8,7 +8,7 @@ package PA4;
     import javax.swing.table.DefaultTableModel;
 import javax.swing.*;
 import java.awt.*;
-
+//Kom ons kyk of hierdie hier bly
 /**
  *
  * @author ruane
