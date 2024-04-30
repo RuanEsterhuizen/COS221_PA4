@@ -103,9 +103,9 @@ public class JFrame extends javax.swing.JFrame {
                         "    GROUP BY cat.category_id, store ";
             rs = stmt.executeQuery(sql);
             ReportTable.setModel(buildTableModel(rs));
-            //ReportTable.getColumnModel().getColumn(0).setHeaderValue("Store");
-            ReportTable.getColumnModel().getColumn(0).setHeaderValue("Genre");
-            ReportTable.getColumnModel().getColumn(1).setHeaderValue("Number of Movies Per Genre");
+            ReportTable.getColumnModel().getColumn(0).setHeaderValue("Store");
+            ReportTable.getColumnModel().getColumn(1).setHeaderValue("Genre");
+            ReportTable.getColumnModel().getColumn(0).setHeaderValue("Number of Movies Per Genre");
 
             
 
