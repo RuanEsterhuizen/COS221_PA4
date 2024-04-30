@@ -179,6 +179,7 @@ public class JFrame extends javax.swing.JFrame {
         DeleteNoti = new javax.swing.JButton();
         UpdateNoti = new javax.swing.JButton();
         InsertNoti = new javax.swing.JButton();
+        InactiveUsers = new javax.swing.JButton();
 
         javax.swing.GroupLayout InputBoxLayout = new javax.swing.GroupLayout(InputBox.getContentPane());
         InputBox.getContentPane().setLayout(InputBoxLayout);
@@ -430,6 +431,11 @@ public class JFrame extends javax.swing.JFrame {
         jScrollPane4.setViewportView(NotificationTable);
 
         DeleteNoti.setText("Delete");
+        DeleteNoti.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                DeleteNotiMouseClicked(evt);
+            }
+        });
 
         UpdateNoti.setText("Update");
 
@@ -437,6 +443,13 @@ public class JFrame extends javax.swing.JFrame {
         InsertNoti.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 InsertNotiMouseClicked(evt);
+            }
+        });
+
+        InactiveUsers.setText("Show Inactive Users");
+        InactiveUsers.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                InactiveUsersMouseClicked(evt);
             }
         });
 
@@ -452,20 +465,23 @@ public class JFrame extends javax.swing.JFrame {
                         .addContainerGap())
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
                         .addComponent(InsertNoti, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(39, 39, 39)
+                        .addGap(18, 18, 18)
                         .addComponent(DeleteNoti, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(43, 43, 43)
+                        .addGap(18, 18, 18)
                         .addComponent(UpdateNoti, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(288, 288, 288))))
+                        .addGap(18, 18, 18)
+                        .addComponent(InactiveUsers, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(220, 220, 220))))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addGap(48, 48, 48)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(DeleteNoti)
                     .addComponent(InsertNoti)
-                    .addComponent(UpdateNoti))
+                    .addComponent(UpdateNoti)
+                    .addComponent(InactiveUsers)
+                    .addComponent(DeleteNoti))
                 .addGap(61, 61, 61)
                 .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 381, Short.MAX_VALUE)
                 .addGap(36, 36, 36))
@@ -591,6 +607,56 @@ public class JFrame extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_ApplyFiltersActionPerformed
 
+    private void DeleteNotiMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_DeleteNotiMouseClicked
+        String userID = JOptionPane.showInputDialog("Enter the userID of the user to be deleted");
+        
+        String sqlr = "DELETE FROM rental WHERE customer_id = "+userID;
+        
+        try {
+            stmt.execute(sqlr);
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(this,"User could not be deleted");
+        }
+        
+        String sqlp = "DELETE FROM payment WHERE customer_id = "+userID;
+        
+        try {
+            stmt.execute(sqlp);
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(this,"User could not be deleted");
+        }
+        
+        String sql = "DELETE FROM customer WHERE customer_id = "+userID;
+        
+        try {
+            stmt.execute(sql);
+            JOptionPane.showMessageDialog(this,"User deleted successfully ");
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(this,"User could not be deleted");
+        }
+        
+        notificationTable();
+    }//GEN-LAST:event_DeleteNotiMouseClicked
+
+    private void InactiveUsersMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_InactiveUsersMouseClicked
+        try {
+
+            stmt = conn.createStatement();
+            String sql = "SELECT customer_id, first_name, last_name, email FROM customer WHERE active=0";
+            rs = stmt.executeQuery(sql);
+            NotificationTable.setModel(buildTableModel(rs));
+            NotificationTable.getColumnModel().getColumn(0).setHeaderValue("Customer ID");
+            NotificationTable.getColumnModel().getColumn(1).setHeaderValue("First Name");
+            NotificationTable.getColumnModel().getColumn(2).setHeaderValue("Last Name");
+            NotificationTable.getColumnModel().getColumn(3).setHeaderValue("Email");
+
+            
+
+        } catch (SQLException ex) {
+            ex.getStackTrace();
+        }
+    }//GEN-LAST:event_InactiveUsersMouseClicked
+
     
     public static DefaultTableModel buildTableModel(ResultSet rs)
         throws SQLException {
@@ -661,6 +727,7 @@ public class JFrame extends javax.swing.JFrame {
     private javax.swing.JTable FilmsTable;
     private javax.swing.JTextField FilterFname;
     private javax.swing.JTextField FilterLName;
+    private javax.swing.JButton InactiveUsers;
     private javax.swing.JDialog InputBox;
     private javax.swing.JButton InsertNoti;
     private javax.swing.JTabbedPane JTabbedPane;
