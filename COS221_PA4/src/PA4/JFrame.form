@@ -517,11 +517,17 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="Delete"/>
               </Properties>
+              <Events>
+                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="DeleteNotiMouseClicked"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="UpdateNoti">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Update"/>
               </Properties>
+              <Events>
+                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="UpdateNotiMouseClicked"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="InsertNoti">
               <Properties>

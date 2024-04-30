@@ -430,8 +430,18 @@ public class JFrame extends javax.swing.JFrame {
         jScrollPane4.setViewportView(NotificationTable);
 
         DeleteNoti.setText("Delete");
+        DeleteNoti.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                DeleteNotiMouseClicked(evt);
+            }
+        });
 
         UpdateNoti.setText("Update");
+        UpdateNoti.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                UpdateNotiMouseClicked(evt);
+            }
+        });
 
         InsertNoti.setText("Insert");
         InsertNoti.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -590,6 +600,55 @@ public class JFrame extends javax.swing.JFrame {
             ex.getStackTrace();
         }
     }//GEN-LAST:event_ApplyFiltersActionPerformed
+
+    private void DeleteNotiMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_DeleteNotiMouseClicked
+        
+    }//GEN-LAST:event_DeleteNotiMouseClicked
+
+    private void UpdateNotiMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_UpdateNotiMouseClicked
+        String customer_id = JOptionPane.showInputDialog("Which customer_id is being updated");
+        String first_name = JOptionPane.showInputDialog("Enter Name if it needs to be updated, else type Na");
+        String last_name = JOptionPane.showInputDialog("Enter Last Name if it needs to be updated, else type Na");
+        String email = JOptionPane.showInputDialog("Enter Email if it needs to be updated, else type Na");
+        LocalDateTime currentDateTime = LocalDateTime.now();
+        
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
+        String date = currentDateTime.format(formatter);
+        String sql = "UPDATE customer SET ";
+        
+        if(first_name.equals("Na") && last_name.equals("Na") && email.equals("Na")){
+            JOptionPane.showMessageDialog(this,"Nothing was updated");
+            return;
+        }
+        if(!first_name.equals("Na")){
+            sql += " first_name = '" + first_name + "'"; 
+            
+        }
+        if(!first_name.equals("Na") && !last_name.equals("Na")){
+            sql += ", last_name = '" + last_name + "'"; 
+        }
+        else  if(!last_name.equals("Na")){
+            sql += " last_name = '" + last_name + "'"; 
+        }
+        if(!last_name.equals("Na") && !email.equals("Na")){
+            sql += ", email = '" + email + "'"; 
+        }
+        else if(!email.equals("Na")){
+            sql += " email = '" + email + "'"; 
+        }
+             sql += ", last_update = '" + date + "'"; 
+            sql +=  " WHERE customer_id=" + customer_id;
+            JOptionPane.showMessageDialog(this,sql);
+        try {
+            stmt.execute(sql);
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(this,"There was an error in the update data");
+        }
+        
+        
+        notificationTable();
+    }//GEN-LAST:event_UpdateNotiMouseClicked
 
     
     public static DefaultTableModel buildTableModel(ResultSet rs)
